@@ -9,15 +9,23 @@ import {
   TableRow,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSelector } from 'react-redux';
-import { selectTickets } from '../../reducers/example/ticketSlice';
+import AddIcon from '@mui/icons-material/Add';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTickets } from '../../reducers/ticket/ticketSlice';
+import { Link } from 'react-router-dom';
+import { getTicket } from '../../reducers/ticket/ticketMiddleware';
 
 function TicketTable() {
   const tickets = useSelector(selectTickets);
+  const dispatch = useDispatch();
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      sx={{ position: 'relative' }}
+    >
       <Table
-        sx={{ minWidth: 650 }}
+        sx={{ minWidth: 650, mt: 5 }}
         aria-label="ticket table"
       >
         <TableHead>
@@ -33,7 +41,10 @@ function TicketTable() {
         </TableHead>
         <TableBody>
           {tickets.map((ticket) => (
-            <TableRow key={ticket.id}>
+            <TableRow
+              key={ticket.id}
+              id={ticket.id}
+            >
               <TableCell>{ticket.id}</TableCell>
               <TableCell>{ticket.type}</TableCell>
               <TableCell>{ticket.title}</TableCell>
@@ -41,7 +52,7 @@ function TicketTable() {
               <TableCell>{ticket.priority}</TableCell>
               <TableCell>{new Date(ticket.updated_at).toLocaleDateString()}</TableCell>
               <TableCell>
-                <IconButton>
+                <IconButton onClick={() => dispatch(getTicket(ticket.id))}>
                   <EditIcon />
                 </IconButton>
               </TableCell>
@@ -49,6 +60,13 @@ function TicketTable() {
           ))}
         </TableBody>
       </Table>
+      <IconButton
+        sx={{ position: 'absolute', top: 8, right: 8 }}
+        component={Link}
+        to="/form"
+      >
+        <AddIcon />
+      </IconButton>
     </TableContainer>
   );
 }

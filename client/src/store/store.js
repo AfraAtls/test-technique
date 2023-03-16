@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ticketReducer from '../reducers/example/ticketSlice';
+import loginReducer from '../reducers/login/loginSlice';
+import ticketReducer from '../reducers/ticket/ticketSlice';
 
 const store = configureStore({
   reducer: {
     tickets: ticketReducer,
+    login: loginReducer,
   },
 });
 

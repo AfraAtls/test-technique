@@ -1,32 +1,42 @@
 import { Container } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
-import { getTickets } from '../../reducers/example/ticketMiddleware';
-import { selectTickets } from '../../reducers/example/ticketSlice';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { getTickets } from '../../reducers/ticket/ticketMiddleware';
+import { selectTickets } from '../../reducers/ticket/ticketSlice';
 import Form from '../Form/Form';
+import Header from '../Header/Header';
+import LoginForm from '../LoginForm/LoginForm';
 import TicketTable from '../TicketTable/TicketTable';
 
 function App() {
   const dispatch = useDispatch();
   const tickets = useSelector(selectTickets);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    dispatch(getTickets());
+    if (token) {
+      dispatch(getTickets());
+    }
   }, []);
 
   return (
     <Container className="App">
+      <Header />
       <Routes>
-        {tickets.length > 0 && (
-          <Route
-            path="/"
-            element={<TicketTable />}
-          />
-        )}
+        <Route
+          path="/"
+          element={<LoginForm />}
+        />
+
+        <Route
+          path="/tickets"
+          element={token && tickets.length > 0 ? <TicketTable /> : <Navigate to="/" />}
+        />
+
         <Route
           path="/form"
-          element={<Form />}
+          element={token ? <Form /> : <Navigate to="/" />}
         />
       </Routes>
     </Container>

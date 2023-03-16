@@ -1,8 +1,8 @@
 import { Box, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { selectValue, setValue } from '../../reducers/example/ticketSlice';
+import { selectValue, setValue } from '../../reducers/ticket/ticketSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { postTicket } from '../../reducers/example/ticketMiddleware';
+import { postTicket } from '../../reducers/ticket/ticketMiddleware';
 
 const types = [
   'Erreur 404',

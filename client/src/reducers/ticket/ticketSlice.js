@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   tickets: [],
+  consultedTicket: {},
   type: '',
   priority: 'Faible',
   title: '',
@@ -35,6 +36,12 @@ export const ticketsSlice = createSlice({
         tickets: [...state.tickets, { ...action.payload }],
       };
     },
+    setConsultedTicket: (state, action) => {
+      return {
+        ...state,
+        consultedTicket: action.payload,
+      };
+    },
     setValue: (state, action) => {
       const { name, value } = action.payload;
       return {
@@ -45,9 +52,11 @@ export const ticketsSlice = createSlice({
   },
 });
 
-export const { fetchTickets, deleteTicket, setTicket, setValue } = ticketsSlice.actions;
+export const { fetchTickets, deleteTicket, setTicket, setValue, setConsultedTicket } =
+  ticketsSlice.actions;
 
 export const selectTickets = (state) => state.tickets.tickets;
 export const selectValue = (state) => state.tickets;
+export const selectConsultedTicket = (state) => state.tickets.consultedTicket;
 
 export default ticketsSlice.reducer;

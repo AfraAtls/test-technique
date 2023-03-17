@@ -11,13 +11,14 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTickets } from '../../reducers/ticket/ticketSlice';
-import { Link } from 'react-router-dom';
+import { selectTickets, setConsultedTicket } from '../../reducers/ticket/ticketSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { getTicket } from '../../reducers/ticket/ticketMiddleware';
 
 function TicketTable() {
   const tickets = useSelector(selectTickets);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <TableContainer
@@ -52,7 +53,13 @@ function TicketTable() {
               <TableCell>{ticket.priority}</TableCell>
               <TableCell>{new Date(ticket.updated_at).toLocaleDateString()}</TableCell>
               <TableCell>
-                <IconButton onClick={() => dispatch(getTicket(ticket.id))}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(getTicket(ticket.id));
+                    dispatch(setConsultedTicket(ticket));
+                    navigate(`/ticket/${ticket.id}`);
+                  }}
+                >
                   <EditIcon />
                 </IconButton>
               </TableCell>

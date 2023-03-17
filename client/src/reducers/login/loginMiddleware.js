@@ -2,7 +2,7 @@
 // import { deleteTicket, fetchTickets, setTicket } from './loginSlice';
 
 import axios from 'axios';
-import { setToken } from './loginSlice';
+import { setIsLogged, setToken } from './loginSlice';
 
 // export const getTickets = () => async (dispatch) => {
 //   try {
@@ -25,6 +25,7 @@ export const login = () => async (dispatch, getState) => {
       password: 'password',
     });
     localStorage.setItem('token', response.data.token);
+    dispatch(setIsLogged());
     dispatch(setToken(response.data.token));
     return response.data;
   } catch (error) {

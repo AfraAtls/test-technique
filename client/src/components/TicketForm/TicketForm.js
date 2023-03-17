@@ -12,7 +12,7 @@ const types = [
   'Lien cassé',
 ];
 
-function Form() {
+function TicketForm() {
   const dispatch = useDispatch();
   const values = useSelector(selectValue);
 
@@ -151,4 +151,4 @@ function Form() {
     </Box>
   );
 }
-export default Form;
+export default TicketForm;
